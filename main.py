@@ -24,6 +24,10 @@ def expose_get():
         return send_file(output, mimetype='image/png', as_attachment=False)
     except requests.RequestException as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/apistatus', methods=['GET'])
+def expose_get_test():
+    return jsonify({"message": "alive"})
 
 if __name__ == '__main__':
     app.run(debug=True)
