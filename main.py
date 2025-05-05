@@ -10,14 +10,14 @@ POST_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 @app.route('/aigenimage', methods=['GET'])
 def expose_get():
     try:
-        print(request.args.get('prompt'))
         POST_PAYLOAD = {
             "prompt": request.args.get('prompt'),
         }
         response = requests.post(POST_API_URL, json=POST_PAYLOAD)
-        response.raise_for_status()  # raises error for bad status codes
+        response.raise_for_status()
+        size = request.args.get('size') or 488
         img = Image.open(BytesIO(response.content))
-        compressed_img = img.resize((350, 350))
+        compressed_img = img.resize((size, size))
         output = BytesIO()
         compressed_img.save(output, format='PNG', optimize=True)
         output.seek(0)
