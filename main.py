@@ -15,7 +15,11 @@ def expose_get():
         }
         response = requests.post(POST_API_URL, json=POST_PAYLOAD)
         response.raise_for_status()
-        size = request.args.get('size') or 488
+        size = request.args.get('size') or 418
+        if size is None:
+            size = 418
+        else:
+            size = int(size)
         img = Image.open(BytesIO(response.content))
         compressed_img = img.resize((size, size))
         output = BytesIO()
