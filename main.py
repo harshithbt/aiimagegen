@@ -11,17 +11,22 @@ POST_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 def expose_get():
     try:
         POST_PAYLOAD = {
-            "prompt": request.args.get('prompt'),
+            "prompt": request.args.get('prompt') or 'enter prompt text',
         }
         response = requests.post(POST_API_URL, json=POST_PAYLOAD)
         response.raise_for_status()
-        size = request.args.get('size') or 418
-        if size is None:
-            size = 418
+        width = request.args.get('width') or 488
+        if width is None:
+            width = 488
         else:
-            size = int(size)
+            width = int(width)
+        height = request.args.get('height') or 488
+        if height is None:
+            height = 488
+        else:
+            height = int(height)
         img = Image.open(BytesIO(response.content))
-        compressed_img = img.resize((size, size))
+        compressed_img = img.resize((width, height))
         output = BytesIO()
         compressed_img.save(output, format='PNG', optimize=True)
         output.seek(0)
