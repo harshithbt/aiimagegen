@@ -62,6 +62,7 @@ def expose_get_impress():
             height=height,
             steps=2,
             n=1,
+            seed=10000,
             response_format="b64_json",
             stop=[]
         )
