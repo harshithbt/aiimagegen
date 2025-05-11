@@ -27,10 +27,10 @@ def expose_get_aigenimage():
             height = 480
         else:
             height = int(height)
-        img = Image.open(BytesIO(response.content))
+        img = Image.open(BytesIO(response.content)).convert("RGB")
         compressed_img = img.resize((width, height))
         output = BytesIO()
-        compressed_img.save(output, format='PNG', optimize=True)
+        compressed_img.save(output, format='PNG', quality=30, optimize=True)
         output.seek(0)
         return send_file(output, mimetype='image/png', as_attachment=False)
     except requests.RequestException as e:
