@@ -44,6 +44,8 @@ def expose_get_test():
 def expose_get_impress():
     try:
         prompt = request.args.get('prompt')
+        apiKey = request.args.get('apiKey')
+        model = request.args.get('model')
         width = request.args.get('width') or 480
         if width is None:
             width = 480
@@ -54,10 +56,10 @@ def expose_get_impress():
             height = 480
         else:
             height = int(height)
-        client = Together(api_key="651ec5eabc61f4b01645e86900f5f22abcd1b45ad100488f983d599b80998290")
+        client = Together(api_key=apiKey)
         response = client.images.generate(
             prompt=prompt,
-            model="black-forest-labs/FLUX.1-schnell-Free",
+            model=model,
             width=width,
             height=height,
             steps=2,
