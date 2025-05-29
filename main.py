@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 POST_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 
-@app.route('/aigenimage', methods=['GET'])
+@app.route('/freeapi', methods=['GET'])
 def expose_get_aigenimage():
     try:
         POST_PAYLOAD = {
@@ -40,7 +40,7 @@ def expose_get_aigenimage():
 def expose_get_test():
     return jsonify({"message": "alive"})
 
-@app.route('/aimpress', methods=['GET'])
+@app.route('/togetherapi', methods=['GET'])
 def expose_get_impress():
     try:
         prompt = request.args.get('prompt')
