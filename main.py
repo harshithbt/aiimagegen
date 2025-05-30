@@ -9,15 +9,16 @@ import requests
 app = Flask(__name__)
 CORS(app)
 
-POST_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
+FREE_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/"
 
 @app.route('/freeapi', methods=['GET'])
-def expose_get_aigenimage():
+def expose_get_free():
     try:
         POST_PAYLOAD = {
             "prompt": request.args.get('prompt'),
         }
-        response = requests.post(POST_API_URL, json=POST_PAYLOAD)
+        response = requests.post(FREE_API_URL, json=POST_PAYLOAD)
         response.raise_for_status()
         width = request.args.get('width') or 480
         if width is None:
@@ -58,22 +59,22 @@ def expose_get_aioption():
             "apiPath": "togetherapi",
             "apiKeyStr": "aimpressTogetherKey",
             "modelStr": "aimpressTogetherModel",
-            "refLink": "https://api.together.ai/settings/api-keys"
+            "refLink": "https://api.together.ai/"
         },
         {
-            "name": "Open AI",
-            "value": "openai",
+            "name": "Google(Gemini)",
+            "value": "gemini",
             "key": True,
-            "apiPath": "openapi",
-            "apiKeyStr": "aimpressOpenKey",
-            "modelStr": "aimpressOpenModel",
-            "refLink": "https://api.together.ai/settings/api-keys"
+            "apiPath": "geminiapi",
+            "apiKeyStr": "aimpressGeminiKey",
+            "modelStr": "aimpressGeminiModel",
+            "refLink": "https://console.cloud.google.com/"
         }
     ]
     return jsonify(modelOption)
 
 @app.route('/togetherapi', methods=['GET'])
-def expose_get_impress():
+def expose_get_together():
     try:
         prompt = request.args.get('prompt')
         apiKey = request.args.get('apiKey')
@@ -108,6 +109,40 @@ def expose_get_impress():
             mimetype='image/png',
             as_attachment=False
         )
+    except requests.RequestException as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/geminiapi', methods=['GET'])
+def expose_get_gemini():
+    try:
+        prompt = request.args.get('prompt')
+        apiKey = request.args.get('apiKey')
+        model = request.args.get('model')
+        width = request.args.get('width') or 480
+        if width is None:
+            width = 480
+        else:
+            width = int(width)
+        height = request.args.get('height') or 480
+        if height is None:
+            height = 480
+        else:
+            height = int(height)
+        GEMINI_PAYLOAD = {
+            "prompt": request.args.get('prompt'),
+        }
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        FINAL_URL = GEMINI_API_URL+model+'?key='+apiKey
+        response = requests.post(FINAL_URL, json=GEMINI_PAYLOAD, headers=headers)
+        response.raise_for_status()
+        img = Image.open(BytesIO(response.content)).convert("RGB")
+        compressed_img = img.resize((width, height))
+        output = BytesIO()
+        compressed_img.save(output, format='PNG', quality=30, optimize=True)
+        output.seek(0)
+        return send_file(output, mimetype='image/png', as_attachment=False)
     except requests.RequestException as e:
         return jsonify({"error": str(e)}), 500
 
