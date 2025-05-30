@@ -46,13 +46,13 @@ def expose_get_aioption():
         {
             "name": "Free",
             "value": "free",
-            "key": false,
+            "key": False,
             "apiPath": "freeapi",
         },
         {
             "name": "Together AI",
             "value": "together",
-            "key": true,
+            "key": True,
             "apiPath": "togetherapi",
             "apiKeyStr": "aimpressTogetherKey",
             "modelStr": "aimpressTogetherModel",
@@ -61,7 +61,7 @@ def expose_get_aioption():
         {
             "name": "Open AI",
             "value": "openai",
-            "key": true,
+            "key": True,
             "apiPath": "openapi",
             "apiKeyStr": "aimpressOpenKey",
             "modelStr": "aimpressOpenModel",
