@@ -43,31 +43,31 @@ def expose_get_test():
 @app.route('/aioption', methods=['GET'])
 def expose_get_aioption():
     modelOption = [
-    {
-        "name": "Free",
-        "value": "free",
-        "key": false,
-        "apiPath": "freeapi",
-    },
-    {
-        "name": "Together AI",
-        "value": "together",
-        "key": true,
-        "apiPath": "togetherapi",
-        "apiKeyStr": "aimpressTogetherKey",
-        "modelStr": "aimpressTogetherModel",
-        "refLink": "https://api.together.ai/settings/api-keys"
-    },
-    {
-        "name": "Open AI",
-        "value": "openai",
-        "key": true,
-        "apiPath": "openapi",
-        "apiKeyStr": "aimpressOpenKey",
-        "modelStr": "aimpressOpenModel",
-        "refLink": "https://api.together.ai/settings/api-keys"
-    }
-]
+        {
+            "name": "Free",
+            "value": "free",
+            "key": false,
+            "apiPath": "freeapi",
+        },
+        {
+            "name": "Together AI",
+            "value": "together",
+            "key": true,
+            "apiPath": "togetherapi",
+            "apiKeyStr": "aimpressTogetherKey",
+            "modelStr": "aimpressTogetherModel",
+            "refLink": "https://api.together.ai/settings/api-keys"
+        },
+        {
+            "name": "Open AI",
+            "value": "openai",
+            "key": true,
+            "apiPath": "openapi",
+            "apiKeyStr": "aimpressOpenKey",
+            "modelStr": "aimpressOpenModel",
+            "refLink": "https://api.together.ai/settings/api-keys"
+        }
+    ]
     return jsonify(modelOption)
 
 @app.route('/togetherapi', methods=['GET'])
