@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, send_file
+from flask_cors import CORS
 from together import Together
 from PIL import Image
 from io import BytesIO
@@ -6,6 +7,7 @@ import base64
 import requests
 
 app = Flask(__name__)
+CORS(app)
 
 POST_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 
