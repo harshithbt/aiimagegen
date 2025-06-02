@@ -57,8 +57,8 @@ def expose_get_aioption():
             "value": "together",
             "key": True,
             "apiPath": "togetherapi",
-            "apiKeyStr": "aimpressTogetherKey",
-            "modelStr": "aimpressTogetherModel",
+            "apiKeyStr": "genaiTogetherKey",
+            "modelStr": "genaiTogetherModel",
             "defaultModel": "black-forest-labs/FLUX.1-schnell-Free",
             "refLink": "https://api.together.ai/"
         },
@@ -67,9 +67,9 @@ def expose_get_aioption():
             "value": "gemini",
             "key": True,
             "apiPath": "geminiapi",
-            "apiKeyStr": "aimpressGeminiKey",
-            "modelStr": "aimpressGeminiModel",
-            "defaultModel": "gemini-2.0-flash-preview-image-generation",
+            "apiKeyStr": "genaiGeminiKey",
+            "modelStr": "genaiGeminiModel",
+            "defaultModel": "imagen-3.0-generate-002",
             "refLink": "https://console.cloud.google.com/"
         }
     ]
@@ -136,7 +136,7 @@ def expose_get_gemini():
         headers = {
             'Content-Type': 'application/json'
         }
-        FINAL_URL = GEMINI_API_URL+model+'?key='+apiKey
+        FINAL_URL = GEMINI_API_URL+model+':predict?key='+apiKey
         response = requests.post(FINAL_URL, json=GEMINI_PAYLOAD, headers=headers)
         response.raise_for_status()
         img = Image.open(BytesIO(response.content)).convert("RGB")
