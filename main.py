@@ -57,8 +57,8 @@ def expose_get_aioption():
             "value": "together",
             "key": True,
             "apiPath": "togetherapi",
-            "apiKeyStr": "genaiTogetherKey",
-            "modelStr": "genaiTogetherModel",
+            "apiKeyStr": "aimpressTogetherKey",
+            "modelStr": "aimpressTogetherModel",
             "defaultModel": "black-forest-labs/FLUX.1-schnell-Free",
             "refLink": "https://api.together.ai/"
         },
@@ -67,8 +67,8 @@ def expose_get_aioption():
             "value": "gemini",
             "key": True,
             "apiPath": "geminiapi",
-            "apiKeyStr": "genaiGeminiKey",
-            "modelStr": "genaiGeminiModel",
+            "apiKeyStr": "aimpressGeminiKey",
+            "modelStr": "aimpressGeminiModel",
             "defaultModel": "imagen-3.0-generate-002",
             "refLink": "https://console.cloud.google.com/"
         }
