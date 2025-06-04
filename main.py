@@ -24,7 +24,7 @@ def expose_get_free():
         POST_PAYLOAD = {
             "prompt": request.args.get('prompt'),
         }
-        sresponse = supabase.table("apiurl").select("apiLink").eq("key", "free").limit(1).execute()
+        sresponse = supabase.table("aimpressoption").select("apiUrl").eq("value", "free").limit(1).execute()
         if sresponse.data and sresponse.data[0].get("apiLink"):
             url_value = sresponse.data[0]["apiLink"]
         else:
@@ -134,7 +134,7 @@ def expose_get_gemini():
         headers = {
             'Content-Type': 'application/json'
         }
-        sresponse = supabase.table("apiurl").select("apiLink").eq("key", "gemini").limit(1).execute()
+        sresponse = supabase.table("aimpressoption").select("apiUrl").eq("value", "gemini").limit(1).execute()
         if sresponse.data and sresponse.data[0].get("apiLink"):
             url_value = sresponse.data[0]["apiLink"]
         else:
