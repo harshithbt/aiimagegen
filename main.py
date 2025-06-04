@@ -24,7 +24,12 @@ def expose_get_free():
         POST_PAYLOAD = {
             "prompt": request.args.get('prompt'),
         }
-        response = requests.post(FREE_API_URL, json=POST_PAYLOAD)
+        sresponse = supabase.table("apiurl").select("apiLink").eq("key", "free").limit(1).execute()
+        if sresponse.data and sresponse.data[0].get("apiLink"):
+            url_value = sresponse.data[0]["apiLink"]
+        else:
+            url_value = FREE_API_URL
+        response = requests.post(url_value, json=POST_PAYLOAD)
         response.raise_for_status()
         width = request.args.get('width') or 480
         if width is None:
@@ -129,7 +134,12 @@ def expose_get_gemini():
         headers = {
             'Content-Type': 'application/json'
         }
-        FINAL_URL = GEMINI_API_URL+model+':predict?key='+apiKey
+        sresponse = supabase.table("apiurl").select("apiLink").eq("key", "gemini").limit(1).execute()
+        if sresponse.data and sresponse.data[0].get("apiLink"):
+            url_value = sresponse.data[0]["apiLink"]
+        else:
+            url_value = GEMINI_API_URL
+        FINAL_URL = url_value+model+':predict?key='+apiKey
         response = requests.post(FINAL_URL, json=GEMINI_PAYLOAD, headers=headers)
         response.raise_for_status()
         img = Image.open(BytesIO(response.content)).convert("RGB")
