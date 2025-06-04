@@ -6,6 +6,7 @@ Flask==3.1.0
 flask-cors
 gunicorn==22.0.0
 together==1.5.7
+supabase==1.4.1
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
