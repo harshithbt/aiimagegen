@@ -57,26 +57,6 @@ def expose_get_aioption():
             "value": "free",
             "key": False,
             "apiPath": "freeapi",
-        },
-        {
-            "name": "Together AI",
-            "value": "together",
-            "key": True,
-            "apiPath": "togetherapi",
-            "apiKeyStr": "aimpressTogetherKey",
-            "modelStr": "aimpressTogetherModel",
-            "defaultModel": "black-forest-labs/FLUX.1-schnell-Free",
-            "refLink": "https://api.together.ai/"
-        },
-        {
-            "name": "Google(Gemini)",
-            "value": "gemini",
-            "key": True,
-            "apiPath": "geminiapi",
-            "apiKeyStr": "aimpressGeminiKey",
-            "modelStr": "aimpressGeminiModel",
-            "defaultModel": "imagen-3.0-generate-002",
-            "refLink": "https://console.cloud.google.com/"
         }
     ]
     try:
