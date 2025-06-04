@@ -61,7 +61,7 @@ def expose_get_aioption():
             "name": "Free",
             "value": "free",
             "key": False,
-            "apiPath": "freeapi",
+            "apiPath": "freeapi"
         }
     ]
     try:
