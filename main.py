@@ -3,6 +3,7 @@ from flask_cors import CORS
 from together import Together
 from PIL import Image
 from io import BytesIO
+from supabase import create_client, Client
 import base64
 import requests
 
@@ -11,6 +12,11 @@ CORS(app)
 
 FREE_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/"
+
+SUPABASE_URL = "https://ckwjyqhmyqydxjswvers.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrd2p5cWhteXF5ZHhqc3d2ZXJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMTExNDMsImV4cCI6MjA2NDU4NzE0M30.fAtUgnqk3JLddYOWV0B_lk3C9s8NB3PW9sitAYF-DO8"
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @app.route('/freeapi', methods=['GET'])
 def expose_get_free():
@@ -73,7 +79,14 @@ def expose_get_aioption():
             "refLink": "https://console.cloud.google.com/"
         }
     ]
-    return jsonify(modelOption)
+    try:
+        response = supabase.table("aimpressoption").select("*").execute()
+        data = response.data
+        if not data:
+            return jsonify(modelOption), 200
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/togetherapi', methods=['GET'])
 def expose_get_together():
