@@ -11,7 +11,6 @@ app = Flask(__name__)
 CORS(app)
 
 FREE_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/"
 
 SUPABASE_URL = "https://ckwjyqhmyqydxjswvers.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrd2p5cWhteXF5ZHhqc3d2ZXJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMTExNDMsImV4cCI6MjA2NDU4NzE0M30.fAtUgnqk3JLddYOWV0B_lk3C9s8NB3PW9sitAYF-DO8"
@@ -109,45 +108,6 @@ def expose_get_together():
             mimetype='image/png',
             as_attachment=False
         )
-    except requests.RequestException as e:
-        return jsonify({"error": str(e)}), 500
-    
-@app.route('/geminiapi', methods=['GET'])
-def expose_get_gemini():
-    try:
-        prompt = request.args.get('prompt')
-        apiKey = request.args.get('apiKey')
-        model = request.args.get('model')
-        width = request.args.get('width') or 480
-        if width is None:
-            width = 480
-        else:
-            width = int(width)
-        height = request.args.get('height') or 480
-        if height is None:
-            height = 480
-        else:
-            height = int(height)
-        GEMINI_PAYLOAD = {
-            "prompt": request.args.get('prompt'),
-        }
-        headers = {
-            'Content-Type': 'application/json'
-        }
-        sresponse = supabase.table("aimpressoption").select("apiUrl").eq("value", "gemini").limit(1).execute()
-        if sresponse.data and sresponse.data[0].get("apiLink"):
-            url_value = sresponse.data[0]["apiLink"]
-        else:
-            url_value = GEMINI_API_URL
-        FINAL_URL = url_value+model+':predict?key='+apiKey
-        response = requests.post(FINAL_URL, json=GEMINI_PAYLOAD, headers=headers)
-        response.raise_for_status()
-        img = Image.open(BytesIO(response.content)).convert("RGB")
-        compressed_img = img.resize((width, height))
-        output = BytesIO()
-        compressed_img.save(output, format='PNG', quality=30, optimize=True)
-        output.seek(0)
-        return send_file(output, mimetype='image/png', as_attachment=False)
     except requests.RequestException as e:
         return jsonify({"error": str(e)}), 500
 
