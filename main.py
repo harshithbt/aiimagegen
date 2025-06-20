@@ -46,22 +46,22 @@ def expose_get_test():
 def expose_get_aioption():
     modelOption = [
         {
-            "apiKeyStr": null,
+            "apiKeyStr": "",
             "apiPath": "freeapi",
             "apiUrl": "https://apiimagestrax.vercel.app/api/genimage",
-            "defaultModel": null,
-            "key": false,
-            "modelStr": null,
+            "defaultModel": "",
+            "key": False,
+            "modelStr": "",
             "name": "Free",
-            "refLink": null,
+            "refLink": "",
             "value": "free"
         },
         {
             "apiKeyStr": "aimpressTogetherKey",
             "apiPath": "togetherapi",
-            "apiUrl": null,
+            "apiUrl": "",
             "defaultModel": "black-forest-labs/FLUX.1-schnell-Free",
-            "key": true,
+            "key": True,
             "modelStr": "aimpressTogetherModel",
             "name": "Together AI",
             "refLink": "https://api.together.ai/",
