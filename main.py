@@ -3,7 +3,6 @@ from flask_cors import CORS
 from together import Together
 from PIL import Image
 from io import BytesIO
-from supabase import create_client, Client
 import base64
 import requests
 
@@ -12,23 +11,13 @@ CORS(app)
 
 FREE_API_URL = "https://apiimagestrax.vercel.app/api/genimage"
 
-SUPABASE_URL = "https://ckwjyqhmyqydxjswvers.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrd2p5cWhteXF5ZHhqc3d2ZXJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMTExNDMsImV4cCI6MjA2NDU4NzE0M30.fAtUgnqk3JLddYOWV0B_lk3C9s8NB3PW9sitAYF-DO8"
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
 @app.route('/freeapi', methods=['GET'])
 def expose_get_free():
     try:
         POST_PAYLOAD = {
             "prompt": request.args.get('prompt'),
         }
-        sresponse = supabase.table("aimpressoption").select("apiUrl").eq("value", "free").limit(1).execute()
-        if sresponse.data and sresponse.data[0].get("apiLink"):
-            url_value = sresponse.data[0]["apiLink"]
-        else:
-            url_value = FREE_API_URL
-        response = requests.post(url_value, json=POST_PAYLOAD)
+        response = requests.post(FREE_API_URL, json=POST_PAYLOAD)
         response.raise_for_status()
         width = request.args.get('width') or 480
         if width is None:
@@ -61,14 +50,32 @@ def expose_get_aioption():
             "value": "free",
             "key": False,
             "apiPath": "freeapi"
+        },
+        {
+            "apiKeyStr": null,
+            "apiPath": "freeapi",
+            "apiUrl": "https://apiimagestrax.vercel.app/api/genimage",
+            "defaultModel": null,
+            "key": false,
+            "modelStr": null,
+            "name": "Free",
+            "refLink": null,
+            "value": "free"
+        },
+        {
+            "apiKeyStr": "aimpressTogetherKey",
+            "apiPath": "togetherapi",
+            "apiUrl": null,
+            "defaultModel": "black-forest-labs/FLUX.1-schnell-Free",
+            "key": true,
+            "modelStr": "aimpressTogetherModel",
+            "name": "Together AI",
+            "refLink": "https://api.together.ai/",
+            "value": "together"
         }
     ]
     try:
-        response = supabase.table("aimpressoption").select("*").execute()
-        data = response.data
-        if not data:
-            return jsonify(modelOption), 200
-        return jsonify(data), 200
+        return jsonify(modelOption), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
