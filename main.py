@@ -46,12 +46,6 @@ def expose_get_test():
 def expose_get_aioption():
     modelOption = [
         {
-            "name": "Free",
-            "value": "free",
-            "key": False,
-            "apiPath": "freeapi"
-        },
-        {
             "apiKeyStr": null,
             "apiPath": "freeapi",
             "apiUrl": "https://apiimagestrax.vercel.app/api/genimage",
